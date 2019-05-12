@@ -2,7 +2,7 @@
   <div class="container">
     <div class="form">
 
-    <h1>Sign up</h1>
+    <h1>Sign up or <%= link_to('Use you Google account to Sign-up / Log-in', '/auth/google_oauth2') %></h1>
 
     <%= form_for @user do |f| %>
       <%= f.label :name %>
