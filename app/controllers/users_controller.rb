@@ -43,7 +43,7 @@ class UsersController < ApplicationController
       redirect_to root_path, alert: 'You cannot edit this user profile!'
       return
     end
-    if @user.update(user_params)
+    if @user.update(user_params) then
       redirect_to root_path, notice: 'User details were updated successfully!'
     else
       redirect_to edit_user_path(@user), alert: "#{@user.error_msg}"
@@ -51,7 +51,24 @@ class UsersController < ApplicationController
   end
 
   def destroy
-
+    if !logged_in? then
+      redirect_to login_path, alert: 'Please login first!'
+      return
+    end
+    @user = User.find_by(id: params[:id])
+    if !@user then
+      redirect_to root_path, alert: 'User does not exist!'
+      return
+    end
+    if @user != current_user then
+      redirect_to root_path, alert: 'You cannot delete this user profile!'
+      return
+    end
+    if @user.delete then
+      redirect_to root_path, notice: 'User account was deleted successfully!'
+    else
+      redirect_to show_user_path(@user), alert: "#{@user.error_msg}"
+    end
   end
 
   private
