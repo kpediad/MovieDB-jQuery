@@ -10,6 +10,6 @@ Rails.application.routes.draw do
 
   root to: "welcome#home"
 
-  get ‘auth/:provider/callback’, to: ‘sessions#googleAuth’
-  get ‘auth/failure’, to: redirect(‘/’)
+  get 'auth/:provider/callback', to: 'sessions#googleAuth'
+  get 'auth/failure', to: redirect('/')
 end
