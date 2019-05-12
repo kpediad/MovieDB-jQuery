@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   get 'welcome/home'
-  get 'sessions/new'
+  get 'sessions/new', as: :login
   get 'sessions/create'
   get 'sessions/destroy'
   resources :reviews
