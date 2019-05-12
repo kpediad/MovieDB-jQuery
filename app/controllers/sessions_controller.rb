@@ -14,7 +14,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    log_out(current_user)
+    log_out
     redirect_to root_path
   end
 
@@ -30,13 +30,4 @@ class SessionsController < ApplicationController
     end
   end
 
-  private
-
-  def log_in(user)
-    session[:user_id] = user.id
-  end
-
-  def log_out(user)
-    session.delete :user_id
-  end
 end
