@@ -3,6 +3,14 @@ class SessionsController < ApplicationController
   end
 
   def create
+    user = User.find_by(email: params[:email])
+    if user && user.authenticate(params[:password])
+      log_in(user)
+      redirect_to root_path
+    else
+      user ? {alert: 'Authentication error!'} : {alert: 'User does not exist!'}
+      redirect_to login_path
+    end
   end
 
   def destroy
