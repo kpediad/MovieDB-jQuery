@@ -4,11 +4,11 @@ class UsersController < ApplicationController
   end
 
   def create
-    
+
   end
 
   def edit
-
+    @user = User.find(params[:id])
   end
 
   def update
