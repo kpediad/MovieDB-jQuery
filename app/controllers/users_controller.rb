@@ -14,10 +14,10 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find(params[:id])
+    @user = User.find_by(id: params[:id])
     redirect_to root_path, alert: 'User does not exist!' if !@user
     redirect_to root_path, alert: 'You cannot edit this user profile!' if @user != current_user
-    redirect_to login_path, alert: 'Please login first!' if !logged_in?  
+    redirect_to login_path, alert: 'Please login first!' if !logged_in?
   end
 
   def update
