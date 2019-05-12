@@ -51,12 +51,12 @@ class UsersController < ApplicationController
 
   def check_user
     @user = User.find_by(id: params[:id])
-    redirect_to root_path, alert: 'User does not exist!' if !@user then
+    redirect_to root_path, alert: 'User does not exist!' if !@user
     redirect_to root_path, alert: 'You cannot delete this user profile!' if @user != current_user
   end
 
   def redirect_if_logged_in
-    redirect_to root_path, alert: 'You already have an account!'
+    redirect_to root_path, alert: 'You already have an account!' if logged_in?
   end
 
 end
