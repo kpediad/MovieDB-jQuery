@@ -13,4 +13,17 @@ class User < ApplicationRecord
       user.password = SecureRandom.hex
     end
   end
+
+  def error_msg
+    if self.errors.any? then
+      msg = 'The following error(s) occured:\n'
+      self.errors.full_messages.each_with_index do |i, message|
+        msg = msg + "#{i. message}\n"
+      end
+    else
+      msg = 'No errors occured.'
+    end
+    return msg
+  end
+
 end
