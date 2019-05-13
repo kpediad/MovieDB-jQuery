@@ -4,13 +4,19 @@ class SessionsController < ApplicationController
   end
 
   def create
-    user = User.find_by(email: params[:email])
-    if user && user.authenticate(params[:password])
-      log_in(user)
+    @user = User.find_by(email: params[:user][:email])
+    if @user && @user.authenticate(params[:user][:password])
+      log_in(@user)
       redirect_to root_path
     else
-      user ? {alert: 'Authentication error!'} : {alert: 'User does not exist!'}
-      redirect_to login_path
+      if @user then
+        @user.errors.add(:password, 'is wrong. Authentication failure!')
+      else
+        @user = User.new(user_params)
+        @user.errors.add(:email, 'does not exist. User not found!')
+      end
+      flash.now.alert = "#{@user.error_msg}"
+      render :new
     end
   end
 
@@ -27,7 +33,8 @@ class SessionsController < ApplicationController
       log_in(user)
       redirect_to root_path
     else
-      redirect_to login_path, alert: 'OAuth login error! Please try again.'
+      flash.now.alert = 'OAuth login error! Please try again.'
+      redirect_to login_path
     end
   end
 

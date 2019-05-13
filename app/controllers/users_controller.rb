@@ -11,10 +11,10 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       log_in(@user)
-      redirect_to root_path, notice: 'New user was created successfully!'
+      flash.now.notice = "New user was created successfully!"
+      redirect_to root_path
     else
-      #redirect_to new_user_path, alert: "#{@user.error_msg}"
-      flash[:alert] = "#{@user.error_msg}"
+      flash.now.alert = "#{@user.error_msg}"
       render :new
     end
   end
@@ -24,41 +24,51 @@ class UsersController < ApplicationController
 
   def update
     if @user.update(user_params) then
-      redirect_to root_path, notice: 'User details were updated successfully!'
+      flash.now.notice = "User details were updated successfully!"
+      redirect_to root_path
     else
-      redirect_to edit_user_path(@user), alert: "#{@user.error_msg}"
+      flash.now.alert = "#{@user.error_msg}"
+      redirect_to edit_user_path(@user)
     end
   end
 
   def destroy
     if @user.delete then
       log_out
-      redirect_to root_path, notice: 'User account was deleted successfully!'
+      flash.now.notice = "User account was deleted successfully!"
+      redirect_to root_path
     else
-      redirect_to show_user_path(@user), alert: "#{@user.error_msg}"
+      flash.now.alert = "#{@user.error_msg}"
+      redirect_to show_user_path(@user)
     end
   end
 
   private
 
-  def user_params
-    params.require(:user).permit(:name, :email, :password, :google_signup)
-  end
-
   def require_login
     unless logged_in?
-      redirect_to login_path, alert: 'Please login first!'
+      flash.now.alert = "Please login first!"
+      redirect_to login_path
     end
   end
 
   def check_user
     @user = User.find_by(id: params[:id])
-    redirect_to root_path, alert: 'User does not exist!' if !@user
-    redirect_to root_path, alert: 'You cannot delete this user profile!' if @user != current_user
+    if !@user then
+      flash.now.alert = "User does not exist!"
+      redirect_to root_path
+    end
+    if @user != current_user then
+      flash.now.alert = "You cannot delete this user profile!"
+      redirect_to root_path
+    end
   end
 
   def redirect_if_logged_in
-    redirect_to root_path, alert: 'You already have an account!' if logged_in?
+    if logged_in? then
+      flash.now.alert = "You already have an account!"
+      redirect_to root_path
+    end
   end
 
 end

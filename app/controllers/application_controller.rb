@@ -1,6 +1,12 @@
 class ApplicationController < ActionController::Base
   layout :determine_layout
 
+  private
+
+  def user_params
+    params.require(:user).permit(:name, :email, :password, :google_signup)
+  end
+
   def current_user
     User.find_by(id: session[:user_id])
   end
@@ -17,7 +23,6 @@ class ApplicationController < ActionController::Base
     session.delete :user_id
   end
 
-  private
   def determine_layout
     logged_in? ? 'application' : 'generic'
   end
