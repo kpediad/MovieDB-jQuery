@@ -13,7 +13,9 @@ class UsersController < ApplicationController
       log_in(@user)
       redirect_to root_path, notice: 'New user was created successfully!'
     else
-      redirect_to new_user_path, alert: "#{@user.error_msg}"
+      #redirect_to new_user_path, alert: "#{@user.error_msg}"
+      flash[:alert] = "#{@user.error_msg}"
+      render :new
     end
   end
 

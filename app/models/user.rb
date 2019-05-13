@@ -4,6 +4,11 @@ class User < ApplicationRecord
 
   has_secure_password
 
+  validates :name, presence: true
+  validates :email, presence: true, uniqueness: true, format: { with: /\A[-a-z0-9_+\.]+\@([-a-z0-9]+\.)+[a-z0-9]{2,4}\z/i }
+  validates :password, presence: true, confirmation: true
+  validates :password_confirmation, presence: true
+
   def self.from_omniauth(auth)
     # Creates a new user only if it doesn't exist
     where(email: auth.info.email).first_or_initialize do |user|
@@ -16,10 +21,11 @@ class User < ApplicationRecord
 
   def error_msg
     if self.errors.any? then
-      msg = 'The following error(s) occured:\n'
-      self.errors.full_messages.each_with_index do |i, message|
-        msg = msg + "#{i. message}\n"
+      msg = "#{'Error'.pluralize(self.errors.count)}: "
+      self.errors.full_messages.each do |message|
+        msg = msg + "#{message} - "
       end
+      msg.chop!.chop!.chop!
     else
       msg = 'No errors occured.'
     end
