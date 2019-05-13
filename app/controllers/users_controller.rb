@@ -11,7 +11,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       log_in(@user)
-      flash.now.notice = "New user was created successfully!"
+      flash.notice = "New user was created successfully!"
       redirect_to root_path
     else
       flash.now.alert = "#{@user.error_msg}"
@@ -24,11 +24,10 @@ class UsersController < ApplicationController
 
   def update
     if @user.update(user_params) then
-      flash.now.notice = "User details were updated successfully!"
+      flash.notice = "User details were updated successfully!"
       redirect_to root_path
     else
       flash.now.alert = "#{@user.error_msg}"
-      #redirect_to edit_user_path(@user)
       render :edit
     end
   end
@@ -39,7 +38,7 @@ class UsersController < ApplicationController
       flash.now.notice = "User account was deleted successfully!"
       redirect_to root_path
     else
-      flash.now.alert = "#{@user.error_msg}"
+      flash.alert = "#{@user.error_msg}"
       redirect_to show_user_path(@user)
     end
   end
@@ -48,7 +47,7 @@ class UsersController < ApplicationController
 
   def require_login
     unless logged_in?
-      flash.now.alert = "Please login first!"
+      flash.alert = "Please login first!"
       redirect_to login_path
     end
   end
@@ -56,18 +55,18 @@ class UsersController < ApplicationController
   def check_user
     @user = User.find_by(id: params[:id])
     if !@user then
-      flash.now.alert = "User does not exist!"
+      flash.alert = "User does not exist!"
       redirect_to root_path
     end
     if @user != current_user then
-      flash.now.alert = "User profile mismatch!"
+      flash.alert = "User profile mismatch!"
       redirect_to root_path
     end
   end
 
   def redirect_if_logged_in
     if logged_in? then
-      flash.now.alert = "You already have an account!"
+      flash.alert = "You already have an account!"
       redirect_to root_path
     end
   end

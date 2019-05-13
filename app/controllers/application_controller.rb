@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   layout :determine_layout
+  helper_method :current_user
 
   private
 

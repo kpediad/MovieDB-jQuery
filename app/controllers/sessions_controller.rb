@@ -33,7 +33,7 @@ class SessionsController < ApplicationController
       log_in(user)
       redirect_to root_path
     else
-      flash.now.alert = 'OAuth login error! Please try again.'
+      flash.alert = 'OAuth login error! Please try again.'
       redirect_to login_path
     end
   end
