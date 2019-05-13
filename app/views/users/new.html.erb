@@ -1,21 +1,36 @@
-<div class="login">
   <div class="container">
-    <div class="form">
-
-    <h1>Sign up or <%= link_to('Use you Google account to Sign-up / Log-in', '/auth/google_oauth2') %></h1>
-
-    <%= form_for @user do |f| %>
-      <%= f.label :name %>
-      <%= f.text_field :name %><br>
-      <%= f.label :email %>
-      <%= f.text_field :email %><br><br>
-      <%= f.label :password %>
-      <%= f.password_field :password %><br>
-      <%= f.label :password_confirmation %>
-      <%= f.password_field :password_confirmation %><br><br>
-      <%= f.submit "Sign Up" %>
-    <%end%>
-
-    </div>
-  </div>
-</div>
+    <div class="row justify-content-center">
+      <div class="col-sm-5 text">
+        <br>
+        <h3>Sign up Form</h3>
+      </div> <!-- end col-sm-8 -->
+    </div> <!-- end row -->
+    <div class="row justify-content-center">
+      <div class="col-sm-5">
+        <div class="form-box">
+          <div class="form-group">
+            <%= form_for @user do |f| %>
+              <%= f.label :name, class: "col-form-label col-form-label-sm" %>
+              <%= f.text_field :name, class: "form-control" %>
+              <%= f.label :email, class: "col-form-label col-form-label-sm" %>
+              <%= f.text_field :email, class: "form-control" %>
+              <%= f.label :password, class: "col-form-label col-form-label-sm" %>
+              <%= f.password_field :password, class: "form-control" %>
+              <%= f.label :password_confirmation, class: "col-form-label col-form-label-sm" %>
+              <%= f.password_field :password_confirmation, class: "form-control" %><br>
+              <table>
+                <tr>
+                  <td>
+                    <%= f.submit "Sign Up", class: "btn btn-primary" %>&nbsp; Or &nbsp;
+                  </td>
+                  <%end%>
+                  <td>
+                    <%= button_to "Use Google Account", '/auth/google_oauth2', {method: :get, class: "btn btn-danger"} %>
+                  </td>
+                </tr>
+              </table>
+          </div> <!-- end form-group  -->
+        </div> <!-- end form-box  -->
+      </div> <!-- end col-sm-6  -->
+    </div> <!-- end form-row  -->
+  </div> <!-- end container  -->

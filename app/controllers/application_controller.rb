@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  layout :determine_layout
 
   def current_user
     User.find_by(id: session[:user_id])
@@ -14,5 +15,10 @@ class ApplicationController < ActionController::Base
 
   def log_out
     session.delete :user_id
+  end
+
+  private
+  def determine_layout
+    logged_in? ? 'application' : 'generic'
   end
 end
