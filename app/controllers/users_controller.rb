@@ -28,7 +28,8 @@ class UsersController < ApplicationController
       redirect_to root_path
     else
       flash.now.alert = "#{@user.error_msg}"
-      redirect_to edit_user_path(@user)
+      #redirect_to edit_user_path(@user)
+      render :edit
     end
   end
 
@@ -59,7 +60,7 @@ class UsersController < ApplicationController
       redirect_to root_path
     end
     if @user != current_user then
-      flash.now.alert = "You cannot delete this user profile!"
+      flash.now.alert = "User profile mismatch!"
       redirect_to root_path
     end
   end

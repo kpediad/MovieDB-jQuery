@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   private
 
   def user_params
-    params.require(:user).permit(:name, :email, :password, :google_signup)
+    params.require(:user).permit(:name, :email, :password, :google_signup, :password_confirmation)
   end
 
   def current_user

@@ -1,21 +1,27 @@
-<div class="login">
-  <div class="container">
-    <div class="form">
-
-    <h1>Edit your Profile</h1>
-
-    <%= form_for @user do |f| %>
-      <%= f.label :name %>
-      <%= f.text_field :name %><br>
-      <%= f.label :email %>
-      <%= f.text_field :email %><br><br>
-      <%= f.label :password %>
-      <%= f.password_field :password %><br>
-      <%= f.label :password_confirmation %>
-      <%= f.password_field :password_confirmation %><br><br>
-      <%= f.submit "Edit" %>
-    <%end%>
-
-    </div>
-  </div>
-</div>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-xs text">
+      <br>
+      <h3>Edit Account Details</h3>
+    </div> <!-- end col-xs -->
+  </div> <!-- end row -->
+  <div class="row justify-content-center">
+    <div class="col-xs">
+      <div class="form-box">
+        <div class="form-group">
+          <%= form_for @user do |f| %>
+            <%= f.label :name, class: "col-form-label col-form-label-sm" %>
+            <%= f.text_field :name, class: "form-control" %>
+            <%= f.label :email, class: "col-form-label col-form-label-sm" %>
+            <%= f.text_field :email, class: "form-control" %>
+            <%= f.label :password, class: "col-form-label col-form-label-sm" %>
+            <%= f.password_field :password, class: "form-control" %>
+            <%= f.label :password_confirmation, class: "col-form-label col-form-label-sm" %>
+            <%= f.password_field :password_confirmation, class: "form-control" %><br>
+            <%= f.submit "Edit Details", class: "btn btn-primary" %>
+          <%end%>
+        </div> <!-- end form-group  -->
+      </div> <!-- end form-box  -->
+    </div> <!-- end col-xs  -->
+  </div> <!-- end form-row  -->
+</div> <!-- end container  -->

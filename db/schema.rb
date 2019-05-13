@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 2019_05_12_085945) do
     t.string "name"
     t.string "password_digest"
     t.string "email"
-    t.boolean "google_signup"
+    t.boolean "google_signup", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
