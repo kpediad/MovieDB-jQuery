@@ -1,4 +1,34 @@
-<h1>Sessions#new</h1>
-<h1>This is the Login Page</h1>
-<h2><%=flash[:alert] if flash[:alert]%></h2>
-<p>Find me in app/views/sessions/new.html.erb</p>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-xs text">
+      <br>
+      <h3>Log In</h3>
+    </div> <!-- end col-xs -->
+  </div> <!-- end row -->
+  <div class="row justify-content-center">
+    <div class="col-xs">
+      <div class="form-box">
+        <div class="form-group">
+          <%= form_for @user do |f| %>
+            <%= f.label :email, class: "col-form-label col-form-label-sm" %>
+            <%= f.text_field :email, class: "form-control" %>
+            <%= f.label :password, class: "col-form-label col-form-label-sm" %>
+            <%= f.password_field :password, class: "form-control" %>
+            <br>
+            <table>
+              <tr>
+                <td>
+                  <%= f.submit "Log In", class: "btn btn-primary" %>
+                </td>
+                <%end%>
+                <td> Or </td>
+                <td>
+                  <%= button_to "Use Google Account", '/auth/google_oauth2', {method: :get, class: "btn btn-danger"} %>
+                </td>
+              </tr>
+            </table>
+        </div> <!-- end form-group  -->
+      </div> <!-- end form-box  -->
+    </div> <!-- end col-xs  -->
+  </div> <!-- end form-row  -->
+</div> <!-- end container  -->
