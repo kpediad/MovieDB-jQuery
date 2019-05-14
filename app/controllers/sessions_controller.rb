@@ -12,7 +12,7 @@ class SessionsController < ApplicationController
         params[:user][:password].empty? ? error = "can't be blank!" : error = "is wrong. Authentication failure!"
         @user.errors.add(:password, error)
       else
-        @user = User.new(user_params)
+        @user = User.new(email: params[:user][:email])
         params[:user][:email].empty? ? error = "can't be blank!" : error = "does not exist. User not found!"
         @user.errors.add(:email, error)
       end

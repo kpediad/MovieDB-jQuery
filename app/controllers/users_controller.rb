@@ -45,6 +45,10 @@ class UsersController < ApplicationController
 
   private
 
+  def user_params
+    params.require(:user).permit(:name, :email, :password, :google_signup, :password_confirmation)
+  end
+
   def require_login
     unless logged_in?
       flash.alert = "Please login first!"
