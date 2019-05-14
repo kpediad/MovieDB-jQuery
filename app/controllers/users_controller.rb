@@ -49,13 +49,6 @@ class UsersController < ApplicationController
     params.require(:user).permit(:name, :email, :password, :google_signup, :password_confirmation)
   end
 
-  def require_login
-    unless logged_in?
-      flash.alert = "Please login first!"
-      redirect_to login_path
-    end
-  end
-
   def check_user
     @user = User.find_by(id: params[:id])
     if !@user then

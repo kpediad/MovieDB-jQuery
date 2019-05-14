@@ -20,6 +20,13 @@ class ApplicationController < ActionController::Base
     session.delete :user_id
   end
 
+  def require_login
+    unless logged_in?
+      flash.alert = "Please login first!"
+      redirect_to login_path
+    end
+  end
+
   def determine_layout
     logged_in? ? 'application' : 'generic'
   end
