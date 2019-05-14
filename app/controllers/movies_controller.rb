@@ -7,6 +7,14 @@ class MoviesController < ApplicationController
   end
 
   def create
+    @movie = Movie.new(movie_params)
+    if @movie.save then
+      flash.notice = "New movie was created successfully!"
+      redirect_to movies_path
+    else
+      flash.now.alert = "#{@movie.error_msg}"
+      render :new
+    end
   end
 
   def edit
@@ -16,9 +24,11 @@ class MoviesController < ApplicationController
   end
 
   def index
+    @movies = Movie.all
   end
 
   def show
+    @movie = Movie.find(params[:id])
   end
 
 end

@@ -9,7 +9,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    if @user.save
+    if @user.save then
       log_in(@user)
       flash.notice = "New user was created successfully!"
       redirect_to root_path
@@ -20,6 +20,7 @@ class UsersController < ApplicationController
   end
 
   def edit
+    @user = User.find(params[:id])
   end
 
   def update
