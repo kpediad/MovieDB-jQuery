@@ -1,6 +1,5 @@
 class SessionsController < ApplicationController
   def new
-    @user = User.new
   end
 
   def create
@@ -10,10 +9,12 @@ class SessionsController < ApplicationController
       redirect_to root_path
     else
       if @user then
-        @user.errors.add(:password, 'is wrong. Authentication failure!')
+        params[:user][:password].empty? ? error = "can't be blank!" : error = "is wrong. Authentication failure!"
+        @user.errors.add(:password, error)
       else
         @user = User.new(user_params)
-        @user.errors.add(:email, 'does not exist. User not found!')
+        params[:user][:email].empty? ? error = "can't be blank!" : error = "does not exist. User not found!"
+        @user.errors.add(:email, error)
       end
       flash.now.alert = "#{@user.error_msg}"
       render :new
@@ -26,16 +27,10 @@ class SessionsController < ApplicationController
   end
 
   def googleAuth
-    # Get access tokens from the google server
     access_token = request.env["omniauth.auth"]
     user = User.from_omniauth(access_token)
-    if user.save then
-      log_in(user)
-      redirect_to root_path
-    else
-      flash.alert = 'OAuth login error! Please try again.'
-      redirect_to login_path
-    end
+    log_in(user)
+    redirect_to root_path
   end
 
 end

@@ -16,6 +16,8 @@ class User < ApplicationRecord
       user.email = auth.info.email
       user.google_signup = true
       user.password = SecureRandom.hex
+      user.password_confirmation = user.password
+      user.save
     end
   end
 
