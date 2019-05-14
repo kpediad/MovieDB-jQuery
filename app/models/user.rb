@@ -14,7 +14,6 @@ class User < ApplicationRecord
     where(email: auth.info.email).first_or_initialize do |user|
       user.name = auth.info.name
       user.email = auth.info.email
-      user.google_signup = true
       user.password = SecureRandom.hex
       user.password_confirmation = user.password
       user.save
