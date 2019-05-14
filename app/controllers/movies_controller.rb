@@ -4,6 +4,7 @@ class MoviesController < ApplicationController
 
   def new
     @movie = Movie.new
+    @movie.reviews.build
   end
 
   def create

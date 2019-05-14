@@ -1,0 +1,33 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-xs text">
+      <br>
+      <h3>Create a new Movie</h3>
+    </div> <!-- end col-xs -->
+  </div> <!-- end row -->
+  <div class="row justify-content-center">
+    <div class="col-sm-6">
+      <div class="form-box">
+        <div class="form-group">
+          <%= form_for @movie do |f| %>
+            <%= f.label :title, class: "col-form-label col-form-label-sm" %>
+            <%= f.text_field :title, class: "form-control" %>
+            <%= f.label :release_year, class: "col-form-label col-form-label-sm" %>
+            <%= f.number_field :release_year, class: "form-control" %>
+            <%= f.label :synopsis, class: "col-form-label col-form-label-sm" %>
+            <%= f.text_area :synopsis, class: "form-control" %>
+            <br><strong>Add a review (optional)</strong><br>
+            <%= f.fields_for :review do |review_fields| %>
+              <%= review_fields.label :content, class: "col-form-label col-form-label-sm" %>
+              <%= review_fields.text_area :content, class: "form-control" %>
+              <%= review_fields.label :rating, class: "col-form-label col-form-label-sm" %>
+              <%= review_fields.number_field :rating, class: "form-control" %>
+            <%end%>
+            <br>
+            <%= f.submit "Create", class: "btn btn-primary" %>
+          <%end%>
+        </div> <!-- end form-group  -->
+      </div> <!-- end form-box  -->
+    </div> <!-- end col-xs  -->
+  </div> <!-- end form-row  -->
+</div> <!-- end container  -->
