@@ -17,7 +17,8 @@
             <%= f.label :synopsis, class: "col-form-label col-form-label-sm" %>
             <%= f.text_area :synopsis, class: "form-control" %>
             <br><strong>Add a review (optional)</strong><br>
-            <%= f.fields_for :review do |review_fields| %>
+            <%= f.fields_for :reviews do |review_fields| %>
+              <%= review_fields.hidden_field :user_id, value: "#{current_user.id}" %>
               <%= review_fields.label :content, class: "col-form-label col-form-label-sm" %>
               <%= review_fields.text_area :content, class: "form-control" %>
               <%= review_fields.label :rating, class: "col-form-label col-form-label-sm" %>

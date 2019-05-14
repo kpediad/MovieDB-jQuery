@@ -9,6 +9,7 @@ class MoviesController < ApplicationController
 
   def create
     @movie = Movie.new(movie_params)
+    #raise @movie.inspect
     if @movie.save then
       flash.notice = "New movie was created successfully!"
       redirect_to movies_path
@@ -44,7 +45,7 @@ class MoviesController < ApplicationController
   private
 
   def movie_params
-    params.require(:movie).permit(:title, :release_year, :synopsis)
+    params.require(:movie).permit(:title, :release_year, :synopsis, reviews_attributes: [:movie_id, :user_id, :content, :rating])
   end
 
 end
