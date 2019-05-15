@@ -23,6 +23,11 @@
               <td><%= link_to star_rating(review.rating).html_safe, movie_review_path(@movie, review) %></td>
             </tr>
           <% end %>
+          <% if logged_in? then %>
+            <tr>
+              <td colspan="2"><%= button_to "Add New Review", new_movie_review_path(@movie), method: :get, class: "btn btn-primary" %></td>
+            </tr>
+          <% end %>
         </tbody>
       </table>
   </div><!-- end row -->
