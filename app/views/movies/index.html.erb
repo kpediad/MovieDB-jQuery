@@ -1,0 +1,25 @@
+<div class="container" >
+  <div class="row justify-content-center">
+      <table class="table table-hover bg-light" style="text-align: center">
+        <thead>
+          <tr class="table-primary">
+            <th colspan="3" scope="col">Movies List</th>
+          </tr>
+          <tr class="table-primary">
+            <th scope="col">Name</th>
+            <th scope="col">Release Year</th>
+            <th scope="col">Average Rating</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @movies.each do |movie| %>
+            <tr>
+              <td><%= link_to movie.title, movie_path(movie) %></td>
+              <td><%= movie.release_year %></td>
+              <td><%= movie.avg_rating || "N/A" %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+  </div><!-- end row -->
+</div><!-- end container -->
