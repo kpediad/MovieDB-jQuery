@@ -13,7 +13,7 @@ module MoviesHelper
     empty_star = '<span class="fa fa-star-o"></span>'
     half_star = '<span class="fa fa-star-half-o"></span>'
     rating.divmod(1).first.to_i.times{stars += full_star}
-    star += half_star if rating.divmod(1).last == 0.5
+    stars += half_star if rating.divmod(1).last == 0.5
     (5-rating.round).times{stars += empty_star}
     return stars
   end

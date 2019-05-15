@@ -25,7 +25,8 @@
           <% end %>
           <% if logged_in? then %>
             <tr class="table-light">
-              <td colspan="2"><%= button_to "Add New Review", new_movie_review_path(@movie), method: :get, class: "btn btn-primary" %></td>
+              <td><%= button_to "Add New Review", new_movie_review_path(@movie), method: :get, class: "btn btn-success" %></td>
+              <td><%= button_to "Edit Movie", edit_movie_path(@movie), method: :get, class: "btn btn-primary" %></td>
             </tr>
           <% end %>
         </tbody>
