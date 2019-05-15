@@ -16,7 +16,7 @@
             <tr>
               <td><%= link_to movie.title, movie_path(movie) %></td>
               <td><%= movie.release_year %></td>
-              <td><%= movie.avg_rating || "N/A" %></td>
+              <td><%= star_rating(movie.avg_rating).html_safe %></td>
             </tr>
           <% end %>
         </tbody>

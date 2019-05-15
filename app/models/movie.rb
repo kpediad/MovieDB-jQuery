@@ -8,6 +8,7 @@ class Movie < ApplicationRecord
   validates :synopsis, length: { maximum: 1000, too_long: "%{count} characters is the maximum allowed" }
 
   def avg_rating
-    self.reviews.average(:rating) || 0.0
+    avg = self.reviews.average(:rating) || 0.0
+    (avg * 2).round / 2.0
   end
 end
