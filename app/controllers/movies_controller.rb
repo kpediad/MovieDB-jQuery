@@ -2,6 +2,8 @@ class MoviesController < ApplicationController
   before_action :require_login
   skip_before_action :require_login, only: [:index, :show,]
 
+  helper_method :sort_column, :sort_direction
+
   def new
     @movie = Movie.new
     @movie.reviews.build
@@ -35,7 +37,12 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @movies = Movie.all
+    if sort_column == 'avg_rating' then
+      @movies = Movie.all.sort_by(&:avg_rating) if sort_direction == 'asc'
+      @movies = Movie.all.sort_by(&:avg_rating).reverse if sort_direction == 'desc'
+    else
+      @movies = Movie.order("#{sort_column} #{sort_direction}")
+    end
   end
 
   def show
@@ -46,6 +53,18 @@ class MoviesController < ApplicationController
 
   def movie_params
     params.require(:movie).permit(:title, :release_year, :synopsis, reviews_attributes: [:user_id, :content, :rating])
+  end
+
+  def sortable_columns
+    ["title", "release_year", "avg_rating"]
+  end
+
+  def sort_column
+    sortable_columns.include?(params[:column]) ? params[:column] : "title"
+  end
+
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
   end
 
 end
