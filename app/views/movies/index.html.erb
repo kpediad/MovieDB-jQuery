@@ -19,6 +19,11 @@
               <td><%= star_rating(movie.avg_rating).html_safe %></td>
             </tr>
           <% end %>
+          <% if logged_in? then %>
+            <tr class="table-light">
+              <td colspan="3"><%= button_to "Add New Movie", new_movie_path, method: :get, class: "btn btn-primary" %></td>
+            </tr>
+          <% end %>
         </tbody>
       </table>
   </div><!-- end row -->
