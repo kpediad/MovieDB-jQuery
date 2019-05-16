@@ -1,6 +1,6 @@
 class ReviewsController < ApplicationController
-  before_action :require_login
-  skip_before_action :require_login, only: [:index, :show,]
+  before_action :require_login, :check_user
+  skip_before_action :require_login, :check_user, only: [:index, :show,]
 
   def index
     @movie = Movie.find(params[:movie_id])
@@ -33,6 +33,16 @@ class ReviewsController < ApplicationController
 
   def destroy
 
+  end
+
+  private
+
+  def check_user
+
+  end
+
+  def review_params
+    params.require(:review).permit(:user_id, :content, :rating]) #temporary as need to test what needs to happen with movie_id
   end
 
 end
