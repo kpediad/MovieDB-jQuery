@@ -1,6 +1,7 @@
 class ReviewsController < ApplicationController
-  before_action :require_login, :check_user
-  skip_before_action :require_login, :check_user, only: [:index, :show,]
+  before_action :require_login
+  before_action :validate_params_and_user, only: [:edit, :update, :destroy]
+  skip_before_action :require_login, only: [:index, :show,]
 
   def index
     @movie = Movie.find(params[:movie_id])
@@ -23,8 +24,7 @@ class ReviewsController < ApplicationController
   end
 
   def edit
-    @movie = Movie.find(params[:movie_id])
-    @review = @movie.reviews.find(params[:id])
+
   end
 
   def update
@@ -37,7 +37,11 @@ class ReviewsController < ApplicationController
 
   private
 
-  def check_user
+  def validate_params_and_user
+    @movie = Movie.find(params[:movie_id])
+    @review = @movie.reviews.find(params[:id])
+    if @review.user != current_user then
+
 
   end
 
