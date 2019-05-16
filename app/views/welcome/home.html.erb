@@ -1,8 +1,17 @@
-
-
-<h1>Welcome#home</h1>
-
-<%= link_to "Edit Account Details", edit_user_path(current_user) %>
-
-<p>Find me in app/views/welcome/home.html.erb</p>
 <br>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="card text-white bg-primary mb-3" style="text-align: center">
+      <h3 class="card-header"><span class="fa fa-film"></span> MovieDB</h3>
+      <div class="card-body bg-white text-dark">
+        <h5 class="card-title">Welcome, <%=current_user.name%></h5>
+        <table class="table" style="margin-bottom: 0">
+          <tr>
+            <td><%=button_to "Movie Index", movies_path, method: :get, class: "btn btn-primary"%></td>
+            <td><%=button_to "Edit Account", edit_user_path(current_user), method: :get, class: "btn btn-secondary"%></td>
+            <td><%=button_to "Logout", logout_path, method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-danger"%></td>
+          </tr>
+        </table>
+    </div>
+  </div>
+</div>
