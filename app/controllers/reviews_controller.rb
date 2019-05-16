@@ -18,7 +18,17 @@ class ReviewsController < ApplicationController
   end
 
   def create
-    raise params.inspect
+    @review = Review.new(review_params)
+    @review.movie = @movie
+    if @review.save then
+      flash.notice = "New review was created successfully!"
+      redirect_to movie_review_path(@movie, @review)
+    else
+      flash.now.alert = "#{@review.error_msg}"
+      render :new
+    end
+  end
+
 
   end
 
