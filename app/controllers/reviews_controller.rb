@@ -1,4 +1,7 @@
 class ReviewsController < ApplicationController
+  before_action :require_login
+  skip_before_action :require_login, only: [:index, :show,]
+
   def index
     @movie = Movie.find(params[:movie_id])
     render 'movies/show'
@@ -15,6 +18,7 @@ class ReviewsController < ApplicationController
   end
 
   def create
+    raise params.inspect
 
   end
 
