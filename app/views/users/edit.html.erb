@@ -18,8 +18,18 @@
             <%= f.password_field :password, class: "form-control" %>
             <%= f.label :password_confirmation, class: "col-form-label col-form-label-sm" %>
             <%= f.password_field :password_confirmation, class: "form-control" %><br>
-            <%= f.submit "Edit Details", class: "btn btn-primary" %>
-          <%end%>
+            <table>
+              <tr>
+                <td>
+                  <%= f.submit "Edit User", class: "btn btn-primary" %>
+                </td>
+                <%end%>
+                <td> Or </td>
+                <td>
+                  <%= button_to "Delete Account", user_path(@user), method: :delete, class: "btn btn-danger" %>
+                </td>
+              </tr>
+            </table>
         </div> <!-- end form-group  -->
       </div> <!-- end form-box  -->
     </div> <!-- end col-xs  -->
