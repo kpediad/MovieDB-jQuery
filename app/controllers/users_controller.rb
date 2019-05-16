@@ -35,7 +35,7 @@ class UsersController < ApplicationController
   def destroy
     if @user.delete then #reviews that belong to this user should be deleted as well
       log_out
-      flash.now.notice = "User account was deleted successfully!"
+      flash.notice = "User account was deleted successfully!"
       redirect_to root_path
     else
       flash.alert = "#{@user.error_msg}"

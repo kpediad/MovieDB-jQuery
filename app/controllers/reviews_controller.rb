@@ -43,7 +43,13 @@ class ReviewsController < ApplicationController
   end
 
   def destroy
-
+    if @review.delete then
+      flash.notice = "Review was deleted successfully!"
+      redirect_to movie_path(@movie)
+    else
+      flash.alert = "#{@review.error_msg}"
+      redirect_to movie_review_path(@movie, @review)
+    end
   end
 
   private
