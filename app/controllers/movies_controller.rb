@@ -1,6 +1,6 @@
 class MoviesController < ApplicationController
   before_action :require_login
-  before_action :validate_params, only: [:edit, :update, :show]
+  before_action :validate_movie, only: [:edit, :update, :show]
   skip_before_action :require_login, only: [:index, :show,]
 
   helper_method :sort_column, :sort_direction
@@ -49,14 +49,6 @@ class MoviesController < ApplicationController
 
   private
 
-  def validate_params
-    @movie = Movie.find(params[:id])
-    if !@movie then
-      flash.alert = "Requested movie does not exist!"
-      redirect_to movies_path
-    end
-  end
-    
   def movie_params
     params.require(:movie).permit(:title, :release_year, :synopsis, reviews_attributes: [:user_id, :content, :rating])
   end

@@ -1,20 +1,19 @@
 class ReviewsController < ApplicationController
   before_action :require_login
-  before_action :validate_params_and_user, only: [:edit, :update, :destroy]
+  before_action :validate_movie
+  before_action :validate_review
+  before_action :validate_user, only: [:edit, :update, :destroy]
   skip_before_action :require_login, only: [:index, :show,]
+  skip_before_action :validate_review, only: [:index, :new, :create]
 
   def index
-    @movie = Movie.find(params[:movie_id])
     render 'movies/show'
   end
 
   def show
-    @movie = Movie.find(params[:movie_id])
-    @review = @movie.reviews.find(params[:id])
   end
 
   def new
-    @movie = Movie.find(params[:movie_id])
     @review = @movie.reviews.build
   end
 
@@ -37,12 +36,19 @@ class ReviewsController < ApplicationController
 
   private
 
-  def validate_params_and_user
-    @movie = Movie.find(params[:movie_id])
+  def validate_review
     @review = @movie.reviews.find(params[:id])
+    if !@review then
+      flash.alert = "Requested review does not exist!"
+      redirect_to movie_path(@movie)
+    end
+  end
+
+  def validate_user
     if @review.user != current_user then
-
-
+      flash.alert = "You are not allowed to modify this review!"
+      redirect_to movie_review_path(@movie, @review)
+    end
   end
 
   def review_params
