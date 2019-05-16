@@ -22,7 +22,7 @@
               <%= review_fields.label :content, class: "col-form-label col-form-label-sm" %>
               <%= review_fields.text_area :content, class: "form-control" %>
               <%= review_fields.label :rating, class: "col-form-label col-form-label-sm" %>
-              <%= review_fields.select :rating, Review::RATINGS.collect{|r| ["#{r} " + "Star".pluralize(r), r]}, {prompt: 'Select Rating'}, class: "form-control" %>
+              <%= review_fields.select :rating, Review::RATINGS.collect{|r| ["#{r} " + "Star".pluralize(r), r]}, {prompt: 'Select Star Rating'}, class: "form-control" %>
             <%end%>
             <br>
             <%= f.submit "Create", class: "btn btn-success" %>
