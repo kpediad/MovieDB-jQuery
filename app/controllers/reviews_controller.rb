@@ -19,7 +19,8 @@ class ReviewsController < ApplicationController
   end
 
   def edit
-
+    @movie = Movie.find(params[:movie_id])
+    @review = @movie.reviews.find(params[:id])
   end
 
   def update
@@ -29,5 +30,5 @@ class ReviewsController < ApplicationController
   def destroy
 
   end
-  
+
 end
