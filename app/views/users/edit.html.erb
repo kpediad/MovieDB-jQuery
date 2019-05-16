@@ -21,12 +21,12 @@
             <table>
               <tr>
                 <td>
-                  <%= f.submit "Edit User", class: "btn btn-primary" %>
+                  <%= f.submit "Edit Account", class: "btn btn-primary" %>
                 </td>
                 <%end%>
                 <td> Or </td>
                 <td>
-                  <%= button_to "Delete Account", user_path(@user), method: :delete, class: "btn btn-danger" %>
+                  <%= button_to "Delete Account", user_path(@user), method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-danger" %>
                 </td>
               </tr>
             </table>
