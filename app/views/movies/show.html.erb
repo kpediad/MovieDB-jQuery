@@ -17,6 +17,10 @@
             <tr class="table-primary">
               <th colspan="2" scope="col">User Reviews</th>
             </tr>
+            <tr class="table-primary">
+              <th scope="col">User</th>
+              <th scope="col">Rating</th>
+            </tr>
           <% @movie.reviews.each do |review| %>
             <tr>
               <td><%= link_to "#{review.user.name}", movie_review_path(@movie, review) %></td>
