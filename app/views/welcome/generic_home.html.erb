@@ -1,8 +1,25 @@
-<h1>This is the Generic Home Page</h1>
-
-<h2><%=flash[:alert] if flash[:alert]%></h2>
-
-<%=link_to "Log-in", login_path%>
-<%=link_to "Sign-up", new_user_path%>
-<%=link_to "Movies Index", movies_path%>
-<%= link_to('Sign-up / Log-in with Google!', '/auth/google_oauth2') %>
+<br>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="card text-white bg-primary mb-3" style="text-align: center">
+      <h3 class="card-header"><span class="fa fa-film"></span> MovieDB</h3>
+      <div class="card-body">
+        <h5 class="card-title">Web Movie Index</h5>
+      </div>
+      <img style="height: 350px; width: 100%; display: block;" src="/moviedb.jpg" alt="MovieDB image">
+      <div class="card-body">
+        <p class="card-text">Rate you favorite and not so favorite movies...</p>
+      </div>
+      <div class="card-body bg-white">
+        <table class="table" style="margin-bottom: 0">
+          <tr >
+            <th><%=link_to "Movies Index", movies_path%></th>
+            <th><%=link_to "Log-in", login_path%></th>
+            <th><%=link_to "Sign-up", new_user_path%></th>
+            <th><%=link_to('Use Google Account', '/auth/google_oauth2')%></th>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
