@@ -1,8 +1,28 @@
 class ApplicationController < ActionController::Base
   layout :determine_layout
-  helper_method :current_user, :logged_in?
+  helper_method :current_user, :logged_in?, :sort_direction, :sort_column
 
   private
+
+  def sort_column
+    if params[:controller] == 'movies' && params[:action] =='index' then
+      sortable_columns.include?(params[:column]) ? params[:column] : "title"
+    else
+      sortable_columns.include?(params[:column]) ? params[:column] : "rating"
+    end
+  end
+
+  def sortable_columns
+    if params[:controller] == 'movies' && params[:action] =='index' then
+      ["title", "release_year", "avg_rating"]
+    else
+      ["name", "rating"]
+    end
+  end
+
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+  end
 
   def validate_movie
     if params[:movie_id] then

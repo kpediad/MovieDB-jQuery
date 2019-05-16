@@ -18,10 +18,10 @@
               <th colspan="2" scope="col">User Reviews</th>
             </tr>
             <tr class="table-primary">
-              <th scope="col">User</th>
-              <th scope="col">Rating</th>
+              <th scope="col"><%= sort_link "name" %></th>
+              <th scope="col"><%= sort_link "rating" %></th>
             </tr>
-          <% @movie.reviews.each do |review| %>
+          <% @movie.reviews_with_name.order("#{sort_column} #{sort_direction}").each do |review| %>
             <tr>
               <td><%= link_to "#{review.user.name}", movie_review_path(@movie, review) %></td>
               <td><%= link_to star_rating(review.rating).html_safe, movie_review_path(@movie, review) %></td>

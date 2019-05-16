@@ -3,8 +3,6 @@ class MoviesController < ApplicationController
   before_action :validate_movie, only: [:edit, :update, :show]
   skip_before_action :require_login, only: [:index, :show,]
 
-  helper_method :sort_column, :sort_direction
-
   def new
     @movie = Movie.new
     @movie.reviews.build
@@ -51,18 +49,6 @@ class MoviesController < ApplicationController
 
   def movie_params
     params.require(:movie).permit(:title, :release_year, :synopsis, reviews_attributes: [:user_id, :content, :rating])
-  end
-
-  def sortable_columns
-    ["title", "release_year", "avg_rating"]
-  end
-
-  def sort_column
-    sortable_columns.include?(params[:column]) ? params[:column] : "title"
-  end
-
-  def sort_direction
-    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
   end
 
 end

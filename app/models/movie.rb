@@ -11,4 +11,8 @@ class Movie < ApplicationRecord
     avg = self.reviews.average(:rating) || 0.0
     (avg * 2).round / 2.0
   end
+
+  def reviews_with_name
+    self.reviews.joins(:user)
+  end
 end
