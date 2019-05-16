@@ -29,15 +29,17 @@ class ReviewsController < ApplicationController
     end
   end
 
-
-  end
-
   def edit
-
   end
 
   def update
-
+    if @review.update(review_params) then
+      flash.notice = "Review details were updated successfully!"
+      redirect_to movie_review_path(@movie, @review)
+    else
+      flash.now.alert = "#{@review.error_msg}"
+      render :edit
+    end
   end
 
   def destroy
