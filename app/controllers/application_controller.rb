@@ -25,9 +25,9 @@ class ApplicationController < ActionController::Base
 
   def validate_movie
     if params[:movie_id] then
-      @movie = Movie.find(params[:movie_id])
+      @movie = Movie.find_by(id: params[:movie_id])
     else
-      @movie = Movie.find(params[:id])
+      @movie = Movie.find_by(id: params[:id])
     end
     if !@movie then
       flash.alert = "Requested movie does not exist!"

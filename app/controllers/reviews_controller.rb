@@ -55,7 +55,7 @@ class ReviewsController < ApplicationController
   private
 
   def validate_review
-    @review = @movie.reviews.find(params[:id])
+    @review = @movie.reviews.find_by(id: params[:id])
     if !@review then
       flash.alert = "Requested review does not exist!"
       redirect_to movie_path(@movie)
