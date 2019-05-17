@@ -15,6 +15,7 @@ class ReviewsController < ApplicationController
 
   def new
     @review = @movie.reviews.build
+    @label_str = 'Add New Review'
   end
 
   def create
@@ -30,6 +31,8 @@ class ReviewsController < ApplicationController
   end
 
   def edit
+    @label_str = 'Edit Review'
+    render :new
   end
 
   def update

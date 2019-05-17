@@ -17,14 +17,14 @@
           <%= form_for [@movie, @review] do |f| %>
             <%= f.hidden_field :user_id, value: "#{current_user.id}" %>
             <tr class="table-primary">
-              <th colspan="2" scope="col">Add New Review</th>
+              <th colspan="2" scope="col"><%= @label_str %></th>
             </tr>
             <tr>
               <th scope="col"><%= f.label :content, class: "col-form-label col-form-label-sm" %><%= f.text_area :content, class: "form-control" %></th>
               <th scope="col"><%= f.label :rating, class: "col-form-label col-form-label-sm" %><%= f.select :rating, Review::RATINGS.collect{|r| ["#{r} " + "Star".pluralize(r), r]}, {prompt: 'Select Star Rating'}, class: "form-control" %></th>
             </tr>
             <tr class="table-light">
-              <td colspan="2"><%= f.submit "Create Review", class: "btn btn-success" %></td>
+              <td colspan="2"><%= f.submit class: "btn btn-success" %></td>
             </tr>
           <% end %>
         </tbody>
