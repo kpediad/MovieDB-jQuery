@@ -1,5 +1,4 @@
 class ApplicationController < ActionController::Base
-  layout :determine_layout
   helper_method :current_user, :logged_in?, :sort_direction, :sort_column
 
   private
@@ -59,7 +58,4 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def determine_layout
-    logged_in? ? 'application' : 'generic'
-  end
 end
