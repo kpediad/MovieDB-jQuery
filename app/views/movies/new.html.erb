@@ -2,7 +2,13 @@
   <div class="row justify-content-center">
     <div class="col-xs text">
       <br>
-      <h3>Create a new Movie</h3>
+
+      <% if @edit then %>
+        <h3>Edit Movie</h3>
+      <% else %>
+        <h3>Create a new Movie</h3>
+      <% end %>
+
     </div> <!-- end col-xs -->
   </div> <!-- end row -->
   <div class="row justify-content-center">
@@ -17,7 +23,8 @@
             <%= f.label :synopsis, class: "col-form-label col-form-label-sm" %>
             <%= f.text_area :synopsis, class: "form-control" %>
 
-            <br><strong>Add a review (optional)</strong><br>
+            <%= "<br><strong>Update your #{'review'.pluralize(@reviews.count)}:</strong><br>".html_safe if @edit && @reviews.count > 0 %>
+            <%= "<br><strong>Add a review (optional)</strong><br>".html_safe if !@edit %>
 
             <%= f.fields_for :reviews, @reviews do |review_fields| %>
               <%= review_fields.hidden_field :user_id, value: "#{current_user.id}" %>
@@ -25,10 +32,12 @@
               <%= review_fields.text_area :content, class: "form-control" %>
               <%= review_fields.label :rating, class: "col-form-label col-form-label-sm" %>
               <%= review_fields.select :rating, Review::RATINGS.collect{|r| ["#{r} " + "Star".pluralize(r), r]}, {prompt: 'Select Star Rating'}, class: "form-control" %>
+              <%= "<hr>".html_safe if @edit %>
             <%end%>
-            <br>
+            <%= "<br>".html_safe unless @edit && @reviews.count > 0 %>
 
-            <%= f.submit class: "btn btn-success" %>
+            <%= f.submit class: "btn btn-success" if !@edit %>
+            <%= f.submit class: "btn btn-primary" if @edit %>
           <%end%>
         </div> <!-- end form-group  -->
       </div> <!-- end form-box  -->

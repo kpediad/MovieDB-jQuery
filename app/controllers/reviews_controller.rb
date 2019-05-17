@@ -16,6 +16,7 @@ class ReviewsController < ApplicationController
   def new
     @review = @movie.reviews.build
     @label_str = 'Add New Review'
+    @btn_class = 'btn btn-success'
   end
 
   def create
@@ -32,6 +33,7 @@ class ReviewsController < ApplicationController
 
   def edit
     @label_str = 'Edit Review'
+    @btn_class = 'btn btn-primary'
     render :new
   end
 

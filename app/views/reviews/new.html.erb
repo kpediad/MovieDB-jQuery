@@ -13,7 +13,7 @@
               <th scope="col"><%= f.label :rating, class: "col-form-label col-form-label-sm" %><%= f.select :rating, Review::RATINGS.collect{|r| ["#{r} " + "Star".pluralize(r), r]}, {prompt: 'Select Star Rating'}, class: "form-control" %></th>
             </tr>
             <tr class="table-light">
-              <td colspan="2"><%= f.submit class: "btn btn-success" %></td>
+              <td colspan="2"><%= f.submit class: "#{@btn_class}" %></td>
             </tr>
           <% end %>
         </tbody>

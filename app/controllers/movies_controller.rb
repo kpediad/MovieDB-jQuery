@@ -21,6 +21,8 @@ class MoviesController < ApplicationController
 
   def edit
     @reviews = @movie.user_reviews(current_user)
+    @edit = true
+    render :new
   end
 
   def update
