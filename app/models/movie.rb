@@ -15,4 +15,8 @@ class Movie < ApplicationRecord
   def reviews_with_name
     self.reviews.joins(:user)
   end
+
+  def user_reviews(user)
+    self.reviews.where(user_id: user.id)
+  end
 end

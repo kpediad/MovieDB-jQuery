@@ -16,8 +16,17 @@
             <%= f.number_field :release_year, class: "form-control" %>
             <%= f.label :synopsis, class: "col-form-label col-form-label-sm" %>
             <%= f.text_area :synopsis, class: "form-control" %>
-            <br>
-            <%= f.submit "Edit", class: "btn btn-primary" %>
+            <%= "<br><strong>Update your #{'review'.pluralize(@reviews.count)}:</strong><br>".html_safe if @reviews.count > 0 %>
+            <%= f.fields_for :reviews, @reviews do |review_fields| %>
+              <%= review_fields.hidden_field :user_id, value: "#{current_user.id}" %>
+              <%= review_fields.label :content, class: "col-form-label col-form-label-sm" %>
+              <%= review_fields.text_area :content, class: "form-control" %>
+              <%= review_fields.label :rating, class: "col-form-label col-form-label-sm" %>
+              <%= review_fields.select :rating, Review::RATINGS.collect{|r| ["#{r} " + "Star".pluralize(r), r]}, {prompt: 'Select Star Rating'}, class: "form-control" %>
+              <hr>
+            <%end%>
+            <%= "<br>".html_safe unless @reviews.count > 0 %>
+            <%= f.submit class: "btn btn-primary" %>
           <%end%>
         </div> <!-- end form-group  -->
       </div> <!-- end form-box  -->

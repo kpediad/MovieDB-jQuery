@@ -5,7 +5,7 @@ class MoviesController < ApplicationController
 
   def new
     @movie = Movie.new
-    @movie.reviews.build
+    @reviews = @movie.reviews.build
   end
 
   def create
@@ -20,9 +20,11 @@ class MoviesController < ApplicationController
   end
 
   def edit
+    @reviews = @movie.user_reviews(current_user)
   end
 
   def update
+    #raise params.inspect
     if @movie.update(movie_params) then
       flash.notice = "Movie details were updated successfully!"
       redirect_to movie_path(@movie)
@@ -47,7 +49,7 @@ class MoviesController < ApplicationController
   private
 
   def movie_params
-    params.require(:movie).permit(:title, :release_year, :synopsis, reviews_attributes: [:user_id, :content, :rating])
+    params.require(:movie).permit(:title, :release_year, :synopsis, reviews_attributes: [:user_id, :content, :rating, :id])
   end
 
 end
