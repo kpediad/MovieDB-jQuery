@@ -53,18 +53,18 @@ class UsersController < ApplicationController
     @user = User.find_by(id: params[:id])
     if !@user then
       flash.alert = "User does not exist!"
-      redirect_to root_path
+      redirect_to root_path and return
     end
     if @user != current_user then
       flash.alert = "User profile mismatch!"
-      redirect_to root_path
+      redirect_to root_path and return
     end
   end
 
   def redirect_if_logged_in
     if logged_in? then
       flash.alert = "You already have an account!"
-      redirect_to root_path
+      redirect_to root_path and return
     end
   end
 
