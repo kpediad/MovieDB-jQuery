@@ -1,18 +1,7 @@
 <div class="container" >
   <div class="row justify-content-center">
       <table class="table bg-light" style="text-align: center">
-        <thead>
-          <tr class="table-primary">
-            <th colspan="2" scope="col"><%= @movie.title %></th>
-          </tr>
-          <tr >
-            <th scope="col">Release Year: <%= @movie.release_year %></th>
-            <th scope="col">Average Rating: <%= star_rating(@movie.avg_rating).html_safe %></th>
-          </tr>
-          <tr style="text-align: justify">
-            <td colspan="2"><%= @movie.synopsis %></td>
-          </tr>
-        </thead>
+        <%= render "reviews/thead" %>
         <tbody>
             <tr class="table-primary">
               <th colspan="2" scope="col">User Reviews</th>
