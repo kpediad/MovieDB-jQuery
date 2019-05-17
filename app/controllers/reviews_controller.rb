@@ -70,7 +70,7 @@ class ReviewsController < ApplicationController
   end
 
   def review_params
-    params.require(:review).permit(:user_id, :content, :rating) #temporary as need to test what needs to happen with movie_id
+    params.require(:review).permit(:user_id, :content, :rating)
   end
 
 end

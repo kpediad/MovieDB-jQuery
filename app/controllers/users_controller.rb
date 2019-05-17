@@ -61,11 +61,4 @@ class UsersController < ApplicationController
     end
   end
 
-  def redirect_if_logged_in
-    if logged_in? then
-      flash.alert = "You already have an account!"
-      redirect_to root_path and return
-    end
-  end
-
 end

@@ -1,4 +1,7 @@
 class SessionsController < ApplicationController
+  before_action :redirect_if_logged_in
+  skip_before_action :redirect_if_logged_in, only: :destroy
+
   def new
   end
 

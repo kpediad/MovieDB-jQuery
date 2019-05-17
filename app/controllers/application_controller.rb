@@ -58,4 +58,15 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def redirect_if_logged_in
+    if logged_in? && params[:controller] == 'users' then
+        flash.alert = "You already have an account!"
+        redirect_to root_path and return
+    end
+    if logged_in? && params[:controller] == 'sessions' then
+        flash.alert = "You are already logged in! Please log out first."
+        redirect_to root_path and return
+    end
+  end
+
 end
