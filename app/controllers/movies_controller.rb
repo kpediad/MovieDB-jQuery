@@ -10,7 +10,6 @@ class MoviesController < ApplicationController
 
   def create
     @movie = Movie.new(movie_params)
-    #raise @movie.inspect
     if @movie.save then
       flash.notice = "New movie was created successfully!"
       redirect_to movies_path
