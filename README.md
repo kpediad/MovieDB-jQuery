@@ -17,7 +17,7 @@ Movies, once added can be updated by any logged-in user, however movies can neve
 
 ## Usage
 
-To use this app in a development environment, just clone, run `bundle install`, `rails db:migrate` and then run `rails server`.
+To use this app in a development environment, after forking and/or cloning the repository, run `bundle install`, `rails db:migrate` and then run `rails server`.
 Everything should be set up.
 
 ## Contributing Bugfixes or Features
@@ -32,4 +32,4 @@ Committing code is easy:
 - Submit a pull request for your changes to be included
 
 ## License
-MovieDB is licensed under the [MIT license](http://opensource.org/licenses/MIT). 
+MovieDB is licensed under the [MIT license](http://opensource.org/licenses/MIT).

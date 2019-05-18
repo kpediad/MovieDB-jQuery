@@ -27,6 +27,8 @@ class ReviewsController < ApplicationController
       redirect_to movie_review_path(@movie, @review)
     else
       flash.now.alert = "#{@review.error_msg}"
+      @label_str = 'Add New Review'
+      @btn_class = 'btn btn-success'
       render :new
     end
   end
@@ -43,7 +45,9 @@ class ReviewsController < ApplicationController
       redirect_to movie_review_path(@movie, @review)
     else
       flash.now.alert = "#{@review.error_msg}"
-      render :edit
+      @label_str = 'Edit Review'
+      @btn_class = 'btn btn-primary'
+      render :new
     end
   end
 

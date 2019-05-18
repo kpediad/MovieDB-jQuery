@@ -15,6 +15,11 @@ class MoviesController < ApplicationController
       redirect_to movies_path
     else
       flash.now.alert = "#{@movie.error_msg}"
+      if @movie.reviews.first then
+        @reviews = @movie.reviews
+      else
+        @reviews = @movie.reviews.build
+      end
       render :new
     end
   end
@@ -26,13 +31,14 @@ class MoviesController < ApplicationController
   end
 
   def update
-    #raise params.inspect
     if @movie.update(movie_params) then
       flash.notice = "Movie details were updated successfully!"
       redirect_to movie_path(@movie)
     else
       flash.now.alert = "#{@movie.error_msg}"
-      render :edit
+      @reviews = @movie.reviews
+      @edit = true
+      render :new
     end
   end
 
