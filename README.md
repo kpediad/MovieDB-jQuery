@@ -1,6 +1,6 @@
 # MovieDB
 
-A rails based MVC web app for users to list and review movies.
+A rails based MVC web app for users to list and review movies. Rails facilitates the back-end API of the application while javascript (specifically jQuery) via AJAX calls to the API, is used to create specific parts of the user experience.
 
 A movie has:
 
