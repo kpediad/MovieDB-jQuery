@@ -7,7 +7,10 @@ class ReviewsController < ApplicationController
   skip_before_action :validate_review, only: [:index, :new, :create]
 
   def index
-    render 'movies/show'
+    respond_to do |format|
+      format.html {render 'movies/show'}
+      format.json {render json: @movie, status: 200}
+    end
   end
 
   def show
