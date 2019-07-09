@@ -2,9 +2,12 @@ $(document).ready(function() {
   console.log("READY!");
 });
 
-function Review(content, rating) {
+function Review(content, rating, userId, movieId, userName) {
   this.content = content;
   this.rating = rating;
+  this.userId = userId;
+  this.userName = userName;
+  this.movieId = movieId;
 }
 
 Review.prototype.starRatingHtml = function() {
