@@ -9,7 +9,7 @@ class ReviewsController < ApplicationController
   def index
     respond_to do |format|
       format.html {render 'movies/show'}
-      format.json {render json: @movie, status: 200}
+      format.json {render json: @movie, include: '**', status: 200}
     end
   end
 
