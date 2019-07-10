@@ -136,17 +136,12 @@ function sortColumns(column, direction) {
   indexMovieReviews();
 }
 
-function userLoggedIn() {
-  $.get('/loggedin_user', function(result){
-    if (result === null) {
-      return false;
-    }
-    return true;
-  });
+function showButtons() {
+  $("#buttons").html("<tr class='table-light'><td><button class='btn btn-success' onclick='addNewReview();'>Add New Review</button></td><td><button class='btn btn-primary' onclick='location.href=`/movies/${window.movie.id}/edit`'>Edit Movie</button></td></tr>");
 }
 
-function showButtons() {
-  console.log("showButtons is running!");
+function addNewReview() {
+  console.log("addNewReview is running!")
 }
 
 $(document).on('turbolinks:load', function() {
@@ -161,8 +156,10 @@ $(document).on('turbolinks:load', function() {
     });
     showMovieDetails();
     sortColumns("name", "ASC");
-    if (userLoggedIn()) {
-      showButtons();
-    }
+    $.get('/loggedin_user', function(result) {
+      if (result !== null) {
+        showButtons();
+      }
+    });
   });
 });
