@@ -1,6 +1,10 @@
 class SessionsController < ApplicationController
   before_action :redirect_if_logged_in
-  skip_before_action :redirect_if_logged_in, only: :destroy
+  skip_before_action :redirect_if_logged_in, only: [:loggedin_user, :destroy]
+
+  def loggedin_user
+    render json: current_user, status: 200
+  end
 
   def new
   end

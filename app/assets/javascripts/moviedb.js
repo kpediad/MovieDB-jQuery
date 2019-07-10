@@ -137,11 +137,16 @@ function sortColumns(column, direction) {
 }
 
 function userLoggedIn() {
-
+  $.get('/loggedin_user', function(result){
+    if (result === null) {
+      return false;
+    }
+    return true;
+  });
 }
 
 function showButtons() {
-
+  console.log("showButtons is running!");
 }
 
 $(document).on('turbolinks:load', function() {
