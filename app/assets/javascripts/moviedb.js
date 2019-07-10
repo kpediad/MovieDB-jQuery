@@ -91,6 +91,14 @@ function setColumnHeaders(column, direction) {
   }
 }
 
+function indexMovieReviews() {
+  let tableRows = "";
+  window.movie.reviews.forEach(function(review) {
+    tableRows += `<tr><td><a href=\"/movies/${window.movie.id}/reviews/${review.id}\">${review.user.name}</a></td><td><a href=\"/movies/${window.movie.id}/reviews/${review.id}\">${review.starRatingHtml()}</a></td></tr>`;
+  });
+  $("#movieReviews").html(tableRows);
+}
+
 function sortColumns(column, direction) {
   console.log(column + direction);
   let sortedReviews = [];
@@ -128,7 +136,11 @@ function sortColumns(column, direction) {
   indexMovieReviews();
 }
 
-function indexMovieReviews() {
+function userLoggedIn() {
+
+}
+
+function showButtons() {
 
 }
 
@@ -144,5 +156,8 @@ $(document).on('turbolinks:load', function() {
     });
     showMovieDetails();
     sortColumns("name", "ASC");
+    if (userLoggedIn()) {
+      showButtons();
+    }
   });
 });

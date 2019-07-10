@@ -10,18 +10,12 @@
               <th scope="col" id="colName"></th>
               <th scope="col" id="colRating"></th>
             </tr>
-          <% @movie.reviews_with_name.order("#{sort_column} #{sort_direction}").each do |review| %>
-            <tr>
-              <td><%= link_to "#{review.user.name}", movie_review_path(@movie, review) %></td>
-              <td><%= link_to star_rating(review.rating).html_safe, movie_review_path(@movie, review) %></td>
-            </tr>
-          <% end %>
-          <% if logged_in? then %>
-            <tr class="table-light">
-              <td><%= button_to "Add New Review", new_movie_review_path(@movie), method: :get, class: "btn btn-success" %></td>
-              <td><%= button_to "Edit Movie", edit_movie_path(@movie), method: :get, class: "btn btn-primary" %></td>
-            </tr>
-          <% end %>
+        </tbody>
+        <tbody id="movieReviews">
+        </tbody>
+        <tbody id="reviewForm">
+        </tbody>
+        <tbody id="buttons">
         </tbody>
       </table>
   </div><!-- end row -->
