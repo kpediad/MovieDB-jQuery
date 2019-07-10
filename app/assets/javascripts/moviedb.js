@@ -1,4 +1,9 @@
-function Review() {}
+function Review(review) {
+  this.id = review.id;
+  this.content = review.content;
+  this.rating = Number(review.rating);
+  this.user = review.user;
+}
 
 Review.prototype.starRatingHtml = function() {
   console.log('Dummy starRatingHtml');
@@ -11,7 +16,7 @@ function Movie(data) {
   this.synopsis = data.synopsis;
   let reviewsArray = [];
   data.reviews.forEach(function(review, index) {
-    reviewsArray[index] = Object.assign(new Review, review);
+    reviewsArray[index] = new Review(review);
   });
   this.reviews = reviewsArray;
 }
