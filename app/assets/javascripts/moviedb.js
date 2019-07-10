@@ -66,17 +66,83 @@ Movie.prototype.avgStarRatingHtml = function() {
   return stars;
 };
 
-function showMovieDetails(movie) {
-  $("#movie").append(`<a href=\"/movies/${movie.id}\">${movie.title}</a>`);
-  $("#year").text(`Release Year: ${movie.release_year}`);
-  $("#avgRating").append("Average Rating: " + movie.avgStarRatingHtml());
-  $("#synopsis").text(movie.synopsis);
+function showMovieDetails() {
+  $("#movie").html(`<a href=\"/movies/${window.movie.id}\">${window.movie.title}</a>`);
+  $("#year").text(`Release Year: ${window.movie.release_year}`);
+  $("#avgRating").html("Average Rating: " + window.movie.avgStarRatingHtml());
+  $("#synopsis").text(window.movie.synopsis);
+}
+
+function setColumnHeaders(column, direction) {
+  if (column === "name") {
+    if (direction === "ASC") {
+      $("#colName").html(`<a href=\"\" onclick=\"sortColumns(\'name\', \'DESC\');\">Name <span class=\"fa fa-chevron-up\"></span></a>`);
+    } else {
+      $("#colName").html(`<a href=\"\" onclick=\"sortColumns(\'name\', \'ASC\');\">Name <span class=\"fa fa-chevron-down\"></span></a>`);
+    }
+    $("#colRating").html(`<a href=\"\" onclick=\"sortColumns(\'rating\', \'ASC\');\">Rating</a>`);
+  } else {
+    if (direction === "ASC") {
+      $("#colRating").html(`<a href=\"\" onclick=\"sortColumns(\'rating\', \'DESC\');\">Rating <span class=\"fa fa-chevron-up\"></span></a>`);
+    } else {
+      $("#colRating").html(`<a href=\"\" onclick=\"sortColumns(\'rating\', \'ASC\');\">Rating <span class=\"fa fa-chevron-down\"></span></a>`);
+    }
+    $("#colName").html(`<a href=\"\" onclick=\"sortColumns(\'name\', \'ASC\');\">Name</a>`);
+  }
+}
+
+function sortColumns(column, direction) {
+  console.log(column + direction);
+  let sortedReviews = [];
+  if (column === "name") {
+    if (direction === "ASC") {
+      window.movie.reviews.sort(function(a, b) {
+        let x = a.user.name.toLowerCase();
+        let y = b.user.name.toLowerCase();
+        if (x < y) {return -1;}
+        if (x > y) {return 1;}
+        return 0;
+      });
+    } else {
+      window.movie.reviews.sort(function(a, b) {
+        let x = a.user.name.toLowerCase();
+        let y = b.user.name.toLowerCase();
+        if (x < y) {return 1;}
+        if (x > y) {return -1;}
+        return 0;
+      });
+    }
+  } else {
+    if (direction === "ASC") {
+      window.movie.reviews.sort(function(a, b) {
+        return a.rating - b.rating;
+      });
+    } else {
+      window.movie.reviews.sort(function(a, b) {
+        return b.rating - a.rating;
+      });
+    }
+  }
+  console.log(window.movie.reviews);
+  setColumnHeaders(column, direction);
+  indexMovieReviews();
+}
+
+function indexMovieReviews() {
+
 }
 
 $(document).on('turbolinks:load', function() {
   let id = $("#movie").attr("data-id");
   $.get("/movies/" + id + ".json", function(data) {
-    let movie = new Movie(data);
-    showMovieDetails(movie);
+    window.movie = new Movie(data);
+    $("#colName").on("click", function(event){
+      event.preventDefault()
+    });
+    $("#colRating").on("click", function(event){
+      event.preventDefault()
+    });
+    showMovieDetails();
+    sortColumns("name", "ASC");
   });
 });
