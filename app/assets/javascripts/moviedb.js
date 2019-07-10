@@ -6,7 +6,23 @@ function Review(review) {
 }
 
 Review.prototype.starRatingHtml = function() {
-  console.log('Dummy starRatingHtml');
+  let stars = "";
+  let starIndex = 5;
+  let full_star = '<span class="fa fa-star"></span>';
+  let empty_star = '<span class="fa fa-star-o"></span>';
+  let half_star = '<span class="fa fa-star-half-o"></span>';
+  for (let i = 0; i < Math.floor(this.rating); i++) {
+    stars += full_star;
+    starIndex--;
+  }
+  if (this.rating - Math.floor(this.rating) === 0.5) {
+    stars += half_star;
+    starIndex--;
+  }
+  for (let i = 0; i < starIndex; i++) {
+    stars += empty_star;
+  }
+  return stars;
 };
 
 function Movie(data) {
@@ -22,25 +38,45 @@ function Movie(data) {
 }
 
 Movie.prototype.averageRating = function() {
-  console.log('Dummy averageRating');
+  let avgRating = 0
+  this.reviews.forEach(function(review) {
+    avgRating += review.rating;
+  });
+  return Math.round((avgRating / this.reviews.length) * 2) / 2;
 };
 
 Movie.prototype.avgStarRatingHtml = function() {
-  console.log('Dummy avgStarRatingHtml');
+  let stars = "";
+  let starIndex = 5;
+  let full_star = '<span class="fa fa-star"></span>';
+  let empty_star = '<span class="fa fa-star-o"></span>';
+  let half_star = '<span class="fa fa-star-half-o"></span>';
+  let avgRating = this.averageRating();
+  for (let i = 0; i < Math.floor(avgRating); i++) {
+    stars += full_star;
+    starIndex--;
+  }
+  if (avgRating - Math.floor(avgRating) === 0.5) {
+    stars += half_star;
+    starIndex--;
+  }
+  for (let i = 0; i < starIndex; i++) {
+    stars += empty_star;
+  }
+  return stars;
 };
 
-function show_movie(movie) {
+function showMovieDetails(movie) {
   $("#movie").append(`<a href=\"/movies/${movie.id}\">${movie.title}</a>`);
+  $("#year").text(`Release Year: ${movie.release_year}`);
+  $("#avgRating").append("Average Rating: " + movie.avgStarRatingHtml());
+  $("#synopsis").text(movie.synopsis);
 }
 
 $(document).on('turbolinks:load', function() {
-  console.log("READY!");
   let id = $("#movie").attr("data-id");
-  console.log(id);
   $.get("/movies/" + id + ".json", function(data) {
-    console.log(data);
     let movie = new Movie(data);
-    console.log(movie);
-    show_movie(movie);
+    showMovieDetails(movie);
   });
 });
