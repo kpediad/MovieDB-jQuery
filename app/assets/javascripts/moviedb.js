@@ -29,7 +29,11 @@ Movie.prototype.avgStarRatingHtml = function() {
   console.log('Dummy avgStarRatingHtml');
 };
 
-$(document).ready(function() {
+function show_movie(movie) {
+  $("#movie").append(`<a href=\"/movies/${movie.id}\">${movie.title}</a>`);
+}
+
+$(document).on('turbolinks:load', function() {
   console.log("READY!");
   let id = $("#movie").attr("data-id");
   console.log(id);
@@ -37,5 +41,6 @@ $(document).ready(function() {
     console.log(data);
     let movie = new Movie(data);
     console.log(movie);
+    show_movie(movie);
   });
 });
