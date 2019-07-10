@@ -12,7 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
-// require rails-ujs REMOVED since jquery_ujs was added! 
+// require rails-ujs REMOVED since jquery_ujs was added!
 //= require activestorage
 //= require turbolinks
 //= require_tree .

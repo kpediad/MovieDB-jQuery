@@ -1,6 +1,6 @@
 <thead>
   <tr class="table-primary">
-    <th colspan="2" scope="col"><%= link_to @movie.title, movie_path(@movie) %></th>
+    <th colspan="2" scope="col" id="movie" data-id="<%=@movie.id%>"><%= link_to @movie.title, movie_path(@movie) %></th>
   </tr>
   <tr >
     <th scope="col">Release Year: <%= @movie.release_year %></th>
