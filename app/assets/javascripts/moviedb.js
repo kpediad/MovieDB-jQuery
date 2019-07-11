@@ -169,15 +169,22 @@ function submitForm() {
   });
 }
 
+function cancelAdd() {
+  $("#reviewForm").html("");
+  addButtons();
+}
+
 function loadForm(page) {
   console.log("loadForm is running!");
   $("#reviewForm").html($(page).find("tbody").html());
+  $("#reviewForm .table-light td").removeAttr("colspan");
+  $("#reviewForm .table-light").append('<td><button class="btn btn-danger" onclick="cancelAdd();">Cancel</button></td>');
   $("#buttons").html("");
   $("#new_review").on("submit", function(event) {
     event.preventDefault();
     submitForm();
   });
-  $(".btn").on("click", function(event) {
+  $(".btn.btn-success").on("click", function(event) {
     event.preventDefault();
     $("#new_review").submit();
   });
@@ -190,6 +197,14 @@ function addNewReview() {
   });
 }
 
+function addButtons() {
+  $.get('/loggedin_user', function(result) {
+    if (result !== null) {
+      showButtons();
+    }
+  });
+}
+
 function loadPage(id) {
   console.log("loadPage is running!");
   console.log(id);
@@ -199,11 +214,7 @@ function loadPage(id) {
       showMessage(data);
       showMovieDetails();
       sortColumns("name", "ASC");
-      $.get('/loggedin_user', function(result) {
-        if (result !== null) {
-          showButtons();
-        }
-      });
+      addButtons();
     });
   });
 }
