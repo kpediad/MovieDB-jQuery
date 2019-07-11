@@ -140,8 +140,41 @@ function showButtons() {
   $("#buttons").html("<tr class='table-light'><td><button class='btn btn-success' onclick='addNewReview();'>Add New Review</button></td><td><button class='btn btn-primary' onclick='location.href=`/movies/${window.movie.id}/edit`'>Edit Movie</button></td></tr>");
 }
 
+function showMessage(data) {
+  console.log("showMessage is running!");
+  $("#message").html($("<div>" + data + "</div>").find("div.alert")[0]);
+}
+
+function handleSubmitResponse(data) {
+  console.log("handleSubmitResponse is running!");
+  console.log(data);
+  showMessage(data);
+  loadForm(data);
+}
+
+function submitForm() {
+  console.log("submitForm is running!");
+  let values = $("#reviewForm input, #reviewForm textarea, #reviewForm select").serialize();
+  console.log(values);
+  let posting = $.post('/movies/' + window.movie.id + "/reviews", values);
+  posting.done(function(data) {
+    handleSubmitResponse(data);
+  });
+}
+
+function loadForm(page) {
+  console.log("loadForm is running!");
+  $("#reviewForm").html($(page).find("tbody").html());
+  $("#buttons").html("");
+  $(".btn").on("click", submitForm);
+}
+
+
 function addNewReview() {
-  console.log("addNewReview is running!")
+  console.log("addNewReview is running!");
+  $.get("/movies/" + window.movie.id + "/reviews/new", function(page) {
+    loadForm(page);
+  });
 }
 
 $(document).on('turbolinks:load', function() {
@@ -149,10 +182,10 @@ $(document).on('turbolinks:load', function() {
   $.get("/movies/" + id + ".json", function(data) {
     window.movie = new Movie(data);
     $("#colName").on("click", function(event){
-      event.preventDefault()
+      event.preventDefault();
     });
     $("#colRating").on("click", function(event){
-      event.preventDefault()
+      event.preventDefault();
     });
     showMovieDetails();
     sortColumns("name", "ASC");
