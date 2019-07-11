@@ -67,6 +67,7 @@ Movie.prototype.avgStarRatingHtml = function() {
 };
 
 function showMovieDetails() {
+  console.log("showMovieDetails is running!");
   $("#movie").html(`<a href=\"/movies/${window.movie.id}\">${window.movie.title}</a>`);
   $("#year").text(`Release Year: ${window.movie.release_year}`);
   $("#avgRating").html("Average Rating: " + window.movie.avgStarRatingHtml());
@@ -142,13 +143,15 @@ function showButtons() {
 
 function showMessage(data) {
   console.log("showMessage is running!");
+  console.log(data);
   $("#message").html($("<div>" + data + "</div>").find("div.alert")[0]);
 }
 
 function handleSubmitResponse(data) {
   console.log("handleSubmitResponse is running!");
   console.log(data);
-  if (data.includes("Turbolinks")) {
+  if (data.hasOwnProperty("responseText")) {
+    $("#reviewForm").html("");
     loadPage(window.movie.id);
   } else {
     showMessage(data);
@@ -170,7 +173,6 @@ function loadForm(page) {
   console.log("loadForm is running!");
   $("#reviewForm").html($(page).find("tbody").html());
   $("#buttons").html("");
-  $(".btn").removeAttr('data-disable-with');
   $("#new_review").on("submit", function(event) {
     event.preventDefault();
     submitForm();
@@ -189,18 +191,20 @@ function addNewReview() {
 }
 
 function loadPage(id) {
+  console.log("loadPage is running!");
+  console.log(id);
   $.get("/movies/" + id + ".json", function(data) {
     window.movie = new Movie(data);
-  });
-  $.get("/movies/" + id + ".html", function(data) {
-    showMessage(data);
-  });
-  showMovieDetails();
-  sortColumns("name", "ASC");
-  $.get('/loggedin_user', function(result) {
-    if (result !== null) {
-      showButtons();
-    }
+    $.get("/movies/" + id + ".html", function(data) {
+      showMessage(data);
+      showMovieDetails();
+      sortColumns("name", "ASC");
+      $.get('/loggedin_user', function(result) {
+        if (result !== null) {
+          showButtons();
+        }
+      });
+    });
   });
 }
 
