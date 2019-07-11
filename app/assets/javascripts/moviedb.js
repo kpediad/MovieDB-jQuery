@@ -148,8 +148,12 @@ function showMessage(data) {
 function handleSubmitResponse(data) {
   console.log("handleSubmitResponse is running!");
   console.log(data);
-  showMessage(data);
-  loadForm(data);
+  if (data.includes("Turbolinks")) {
+    loadPage(window.movie.id);
+  } else {
+    showMessage(data);
+    loadForm(data);
+  }
 }
 
 function submitForm() {
@@ -157,7 +161,7 @@ function submitForm() {
   let values = $("#reviewForm input, #reviewForm textarea, #reviewForm select").serialize();
   console.log(values);
   let posting = $.post('/movies/' + window.movie.id + "/reviews", values);
-  posting.done(function(data) {
+  posting.always(function(data) {
     handleSubmitResponse(data);
   });
 }
@@ -166,9 +170,16 @@ function loadForm(page) {
   console.log("loadForm is running!");
   $("#reviewForm").html($(page).find("tbody").html());
   $("#buttons").html("");
-  $(".btn").on("click", submitForm);
+  $(".btn").removeAttr('data-disable-with');
+  $("#new_review").on("submit", function(event) {
+    event.preventDefault();
+    submitForm();
+  });
+  $(".btn").on("click", function(event) {
+    event.preventDefault();
+    $("#new_review").submit();
+  });
 }
-
 
 function addNewReview() {
   console.log("addNewReview is running!");
@@ -177,22 +188,29 @@ function addNewReview() {
   });
 }
 
-$(document).on('turbolinks:load', function() {
-  let id = $("#movie").attr("data-id");
+function loadPage(id) {
   $.get("/movies/" + id + ".json", function(data) {
     window.movie = new Movie(data);
-    $("#colName").on("click", function(event){
-      event.preventDefault();
-    });
-    $("#colRating").on("click", function(event){
-      event.preventDefault();
-    });
-    showMovieDetails();
-    sortColumns("name", "ASC");
-    $.get('/loggedin_user', function(result) {
-      if (result !== null) {
-        showButtons();
-      }
-    });
   });
+  $.get("/movies/" + id + ".html", function(data) {
+    showMessage(data);
+  });
+  showMovieDetails();
+  sortColumns("name", "ASC");
+  $.get('/loggedin_user', function(result) {
+    if (result !== null) {
+      showButtons();
+    }
+  });
+}
+
+$(document).on("ready", function() {
+  $("#colName").on("click", function(event){
+    event.preventDefault();
+  });
+  $("#colRating").on("click", function(event){
+    event.preventDefault();
+  });
+  let id = $("#movie").attr("data-id");
+  loadPage(id);
 });
