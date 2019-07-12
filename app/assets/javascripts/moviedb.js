@@ -196,7 +196,19 @@ function addFormListeners() {
   });
   $(".btn.btn-success").on("click", function(event) {
     event.preventDefault();
-    $("#new_review").submit();
+    $.get('/loggedin_user', function(result) {
+      if (result === null) {
+        alert("User Error. Are you logged in?");
+        window.location.reload(true);
+        return;
+      }
+      if (result.id === window.user.id && result.name === window.user.name) {
+        $("#new_review").submit();
+      } else {
+        alert("User Mismatch.");
+        window.location.reload(true);
+      }
+    });
   });
 }
 
@@ -209,15 +221,38 @@ function loadForm(page) {
 }
 
 function addNewReview() {
-  $.get("/movies/" + window.movie.id + "/reviews/new", function(page) {
-    loadForm(page);
+  $.get('/loggedin_user', function(result) {
+    if (result === null) {
+      alert("User Error. Are you logged in?");
+      window.location.reload(true);
+      return;
+    }
+    if (result.id === window.user.id && result.name === window.user.name) {
+      $.get("/movies/" + window.movie.id + "/reviews/new", function(page) {
+        loadForm(page);
+      });
+    } else {
+      alert("User Mismatch.");
+      window.location.reload(true);
+    }
   });
 }
 
 function addButtons() {
   $.get('/loggedin_user', function(result) {
-    if (result !== null) {
+    if (result === null && window.user !== null) {
+      alert("User Error. Are you logged in?");
+      window.location.reload(true);
+      return;
+    }
+    if (result !== null && result.id === window.user.id && result.name === window.user.name) {
       showButtons();
+      return;
+    }
+    if (result !== null) {
+      alert("User Mismatch.");
+      window.location.reload(true);
+      return;
     }
   });
 }
@@ -237,8 +272,15 @@ function addEventListeners() {
   });
 }
 
+function getUser() {
+  $.get('/loggedin_user', function(result) {
+      window.user = result;
+  });
+}
+
 $(document).on("ready", function() {
   let id = $("#movie").attr("data-id");
+  getUser();
   $("#message").html($("div.alert")[0]);
   addEventListeners();
   $.get("/movies/" + id + ".json", function(data) {
