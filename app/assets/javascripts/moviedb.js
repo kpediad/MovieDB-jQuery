@@ -280,6 +280,7 @@ function getUser() {
 
 $(document).on("ready", function() {
   let id = $("#movie").attr("data-id");
+  if (!id) {return;}
   getUser();
   $("#message").html($("div.alert")[0]);
   addEventListeners();
