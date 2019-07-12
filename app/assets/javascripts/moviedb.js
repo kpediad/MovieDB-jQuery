@@ -162,8 +162,6 @@ function handleSubmitResponse(data) {
   console.log("handleSubmitResponse is running!");
   console.log(data);
   if (data.hasOwnProperty("responseText")) {
-    //$("#reviewForm").html("");
-    //loadPage(window.movie.id);
     loadMessage(window.movie.id);
     $.get("/movies/" + window.movie.id + ".json", function(data) {
       window.movie = new Movie(data);
@@ -234,22 +232,6 @@ function loadMessage(id) {
   });
 }
 
-function showPage(id) {
-  loadMessage(id);
-  showMovieDetails();
-  showReviews();
-  addButtons();
-}
-
-function loadPage(id) {
-  console.log("loadPage is running!");
-  console.log(id);
-  $.get("/movies/" + id + ".json", function(data) {
-    window.movie = new Movie(data);
-    showPage(id);
-  });
-}
-
 function addEventListeners() {
   $("#Name").on("click", function(event) {
     event.preventDefault();
@@ -261,6 +243,12 @@ function addEventListeners() {
 
 $(document).on("ready", function() {
   let id = $("#movie").attr("data-id");
+  $("#message").html($("div.alert")[0]);
   addEventListeners();
-  loadPage(id);
+  $.get("/movies/" + id + ".json", function(data) {
+    window.movie = new Movie(data);
+    showMovieDetails();
+    showReviews();
+    addButtons();
+  });
 });
