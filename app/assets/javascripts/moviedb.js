@@ -66,11 +66,15 @@ Movie.prototype.avgStarRatingHtml = function() {
   return stars;
 };
 
+function showAvgRating() {
+  $("#avgRating").html("Average Rating: " + window.movie.avgStarRatingHtml());
+}
+
 function showMovieDetails() {
   console.log("showMovieDetails is running!");
   $("#movie").html(`<a href=\"/movies/${window.movie.id}\">${window.movie.title}</a>`);
   $("#year").text(`Release Year: ${window.movie.release_year}`);
-  $("#avgRating").html("Average Rating: " + window.movie.avgStarRatingHtml());
+  showAvgRating();
   $("#synopsis").text(window.movie.synopsis);
 }
 
@@ -165,6 +169,7 @@ function handleSubmitResponse(data) {
     loadMessage(window.movie.id);
     $.get("/movies/" + window.movie.id + ".json", function(data) {
       window.movie = new Movie(data);
+      showAvgRating();
       sortColumns(window.column, window.direction);
       indexMovieReviews();
       addNewReview();
