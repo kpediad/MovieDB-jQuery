@@ -71,7 +71,6 @@ function showAvgRating() {
 }
 
 function showMovieDetails() {
-  console.log("showMovieDetails is running!");
   $("#movie").html(`<a href=\"/movies/${window.movie.id}\">${window.movie.title}</a>`);
   $("#year").text(`Release Year: ${window.movie.release_year}`);
   showAvgRating();
@@ -157,14 +156,10 @@ function showButtons() {
 }
 
 function showMessage(data) {
-  console.log("showMessage is running!");
-  console.log(data);
   $("#message").html($("<div>" + data + "</div>").find("div.alert")[0]);
 }
 
 function handleSubmitResponse(data) {
-  console.log("handleSubmitResponse is running!");
-  console.log(data);
   if (data.hasOwnProperty("responseText")) {
     loadMessage(window.movie.id);
     $.get("/movies/" + window.movie.id + ".json", function(data) {
@@ -181,9 +176,7 @@ function handleSubmitResponse(data) {
 }
 
 function submitForm() {
-  console.log("submitForm is running!");
   let values = $("#reviewForm input, #reviewForm textarea, #reviewForm select").serialize();
-  console.log(values);
   let posting = $.post('/movies/' + window.movie.id + "/reviews", values);
   posting.always(function(data) {
     handleSubmitResponse(data);
@@ -208,7 +201,6 @@ function addFormListeners() {
 }
 
 function loadForm(page) {
-  console.log("loadForm is running!");
   $("#reviewForm").html($(page).find("tbody").html());
   $("#reviewForm .table-light td").removeAttr("colspan");
   $("#reviewForm .table-light").append('<td><button class="btn btn-danger" onclick="cancelAdd();">Cancel</button></td>');
@@ -217,7 +209,6 @@ function loadForm(page) {
 }
 
 function addNewReview() {
-  console.log("addNewReview is running!");
   $.get("/movies/" + window.movie.id + "/reviews/new", function(page) {
     loadForm(page);
   });
