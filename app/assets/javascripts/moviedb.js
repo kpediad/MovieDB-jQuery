@@ -38,7 +38,7 @@ function Movie(data) {
 }
 
 Movie.prototype.averageRating = function() {
-  let avgRating = 0
+  let avgRating = 0;
   this.reviews.forEach(function(review) {
     avgRating += review.rating;
   });
@@ -74,22 +74,30 @@ function showMovieDetails() {
   $("#synopsis").text(window.movie.synopsis);
 }
 
-function setColumnHeaders(column, direction) {
-  if (column === "name") {
-    if (direction === "ASC") {
-      $("#colName").html(`<a href=\"\" onclick=\"sortColumns(\'name\', \'DESC\');\">Name <span class=\"fa fa-chevron-up\"></span></a>`);
-    } else {
-      $("#colName").html(`<a href=\"\" onclick=\"sortColumns(\'name\', \'ASC\');\">Name <span class=\"fa fa-chevron-down\"></span></a>`);
-    }
-    $("#colRating").html(`<a href=\"\" onclick=\"sortColumns(\'rating\', \'ASC\');\">Rating</a>`);
-  } else {
-    if (direction === "ASC") {
-      $("#colRating").html(`<a href=\"\" onclick=\"sortColumns(\'rating\', \'DESC\');\">Rating <span class=\"fa fa-chevron-up\"></span></a>`);
-    } else {
-      $("#colRating").html(`<a href=\"\" onclick=\"sortColumns(\'rating\', \'ASC\');\">Rating <span class=\"fa fa-chevron-down\"></span></a>`);
-    }
-    $("#colName").html(`<a href=\"\" onclick=\"sortColumns(\'name\', \'ASC\');\">Name</a>`);
+function returnOpposite(param) {
+  if (param === "Name") {
+    return "Rating";
   }
+  if (param === "Rating") {
+    return "Name";
+  }
+  if (param === "ASC") {
+    return "DESC";
+  }
+  if (param === "DESC") {
+    return "ASC";
+  }
+}
+
+function setColumnHeaders(column, direction) {
+  let opColumn = returnOpposite(column);
+  let opDirection = returnOpposite(direction);
+  let arrow = "fa fa-chevron-down";
+  if (direction === "ASC") {
+    arrow = "fa fa-chevron-up";
+  }
+  $("#" + column).html(`<a href=\"\" onclick=\"showReviews(\'${column}\', \'${opDirection}\');\">${column} <span class=\"${arrow}\"></span></a>`);
+  $("#" + opColumn).html(`<a href=\"\" onclick=\"showReviews(\'${opColumn}\', \'ASC\');\">${opColumn}</a>`);
 }
 
 function indexMovieReviews() {
@@ -100,25 +108,23 @@ function indexMovieReviews() {
   $("#movieReviews").html(tableRows);
 }
 
+function sortByName(a, b) {
+  let x = a.user.name.toLowerCase();
+  let y = b.user.name.toLowerCase();
+  if (x < y) {return -1;}
+  if (x > y) {return 1;}
+  return 0;
+}
+
 function sortColumns(column, direction) {
-  console.log(column + direction);
-  let sortedReviews = [];
-  if (column === "name") {
+  if (column === "Name") {
     if (direction === "ASC") {
       window.movie.reviews.sort(function(a, b) {
-        let x = a.user.name.toLowerCase();
-        let y = b.user.name.toLowerCase();
-        if (x < y) {return -1;}
-        if (x > y) {return 1;}
-        return 0;
+        return sortByName(a, b);
       });
     } else {
       window.movie.reviews.sort(function(a, b) {
-        let x = a.user.name.toLowerCase();
-        let y = b.user.name.toLowerCase();
-        if (x < y) {return 1;}
-        if (x > y) {return -1;}
-        return 0;
+        return sortByName(b, a);
       });
     }
   } else {
@@ -132,7 +138,10 @@ function sortColumns(column, direction) {
       });
     }
   }
-  console.log(window.movie.reviews);
+}
+
+function showReviews(column = "Name", direction = "ASC") {
+  sortColumns(column, direction);
   setColumnHeaders(column, direction);
   indexMovieReviews();
 }
@@ -174,12 +183,7 @@ function cancelAdd() {
   addButtons();
 }
 
-function loadForm(page) {
-  console.log("loadForm is running!");
-  $("#reviewForm").html($(page).find("tbody").html());
-  $("#reviewForm .table-light td").removeAttr("colspan");
-  $("#reviewForm .table-light").append('<td><button class="btn btn-danger" onclick="cancelAdd();">Cancel</button></td>');
-  $("#buttons").html("");
+function addFormListeners() {
   $("#new_review").on("submit", function(event) {
     event.preventDefault();
     submitForm();
@@ -188,6 +192,15 @@ function loadForm(page) {
     event.preventDefault();
     $("#new_review").submit();
   });
+}
+
+function loadForm(page) {
+  console.log("loadForm is running!");
+  $("#reviewForm").html($(page).find("tbody").html());
+  $("#reviewForm .table-light td").removeAttr("colspan");
+  $("#reviewForm .table-light").append('<td><button class="btn btn-danger" onclick="cancelAdd();">Cancel</button></td>');
+  $("#buttons").html("");
+  addFormListeners();
 }
 
 function addNewReview() {
@@ -205,27 +218,39 @@ function addButtons() {
   });
 }
 
+function loadMessage(id) {
+  $.get("/movies/" + id + ".html", function(data) {
+    showMessage(data);
+  });
+}
+
+function showPage(id) {
+  loadMessage(id);
+  showMovieDetails();
+  showReviews();
+  addButtons();
+}
+
 function loadPage(id) {
   console.log("loadPage is running!");
   console.log(id);
   $.get("/movies/" + id + ".json", function(data) {
     window.movie = new Movie(data);
-    $.get("/movies/" + id + ".html", function(data) {
-      showMessage(data);
-      showMovieDetails();
-      sortColumns("name", "ASC");
-      addButtons();
-    });
+    showPage(id);
+  });
+}
+
+function addEventListeners() {
+  $("#Name").on("click", function(event) {
+    event.preventDefault();
+  });
+  $("#Rating").on("click", function(event) {
+    event.preventDefault();
   });
 }
 
 $(document).on("ready", function() {
-  $("#colName").on("click", function(event){
-    event.preventDefault();
-  });
-  $("#colRating").on("click", function(event){
-    event.preventDefault();
-  });
   let id = $("#movie").attr("data-id");
+  addEventListeners();
   loadPage(id);
 });
