@@ -117,6 +117,8 @@ function sortByName(a, b) {
 }
 
 function sortColumns(column, direction) {
+  window.column = column;
+  window.direction = direction;
   if (column === "Name") {
     if (direction === "ASC") {
       window.movie.reviews.sort(function(a, b) {
@@ -160,8 +162,15 @@ function handleSubmitResponse(data) {
   console.log("handleSubmitResponse is running!");
   console.log(data);
   if (data.hasOwnProperty("responseText")) {
-    $("#reviewForm").html("");
-    loadPage(window.movie.id);
+    //$("#reviewForm").html("");
+    //loadPage(window.movie.id);
+    loadMessage(window.movie.id);
+    $.get("/movies/" + window.movie.id + ".json", function(data) {
+      window.movie = new Movie(data);
+      sortColumns(window.column, window.direction);
+      indexMovieReviews();
+      addNewReview();
+    });
   } else {
     showMessage(data);
     loadForm(data);
@@ -180,6 +189,7 @@ function submitForm() {
 
 function cancelAdd() {
   $("#reviewForm").html("");
+  $("#message").html("");
   addButtons();
 }
 
